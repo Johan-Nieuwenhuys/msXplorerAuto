@@ -1,0 +1,178 @@
+1	START PROJECT MESSAGE:
+I'm starting a new project, uploading a document with Brief and project Instructions. For every new session in this chat, please refer to the entire content of this document for an overall understanding of my complete objectives and to refresh your memory. However, for now please first focus on STAGE 1 of the Brief for initial testing purposes.
+EXPECTATIONS:
+Before we begin, I’d like to set some expectations. Please be upfront and let me know if you don’t have enough information to answer a question or if you’re unsure about something—don’t make assumptions or provide fabricated answers. If you’re not sure about the end goal or something I’ve shared, pause and ask for clarification rather than trying to piece it together yourself. Also, please adapt your tone to reflect how confident you are in your response—if you’re uncertain about something, let me know instead of sounding overly sure. Let’s work step by step, and I’ll provide input or corrections as we go. Please look for the most up to date versions of information and applications available online as we go along in the process. Before every single response you provide to me, please reference ALL contents in this document so that you don’t lose focus of the overall objectives to be achieved. Thanks!
+OBJECTIVES:
+SUMMARY:
+1.	Initiate the process
+2.	Capture file names from Downloads folder
+3.	Check if Smartforms IPG is correct
+4.	Create unique project folder on the local drive.
+5.	Copy template Excel worksheet into the project folder
+6.	Populate Excel CAD QA worksheet with file names based on predefined rules
+7.	Populate Excel As-Built Tracker worksheet with file names based on predefined rules
+8.	Packages the process into a standalone desktop application for distribution.
+TESTING PLAN (Hypothetical):
+1.	Create and test progressively under development
+2.	Initial development to be done with code and later with GUI and eventually full standalone executable application.
+3.	Test for a period during functional use prior to deployment
+PHASING PLAN (Hypothetical):
+1.	Following successful local testing, deploy to one other colleague for initial deployment testing
+2.	Deploy to all other colleagues for further roll-out
+GENERAL NOTES:
+•	Python is the chosen script language for this project
+•	Code should always be as concise as possible and be dynamic i.e. NEVER  include any bespoke example code in script.
+•	Before each response, reference to this Brief document in order not to lose track of the objectives.
+•	When testing code, always provide the full section of code necessary for testing, and if you are unable to provide the full set of code due to your own restrictions, provide it in two or more separate portions.
+•	My own name is Johan Nieuwenhuys (user_name) – where this is used in the context of authentication, file paths etc, it should therefore be easily interchangeable with any of my colleague’s names for the purpose of general deployment, and be set as a variable to be entered once upon initial deployment of the desktop app.
+•	So in this case the Downloads folder path would be : “C:\Users\user_name\OneDrive - EKFB\Documents”  with user_name = Johan Nieuwenhuys
+STAGE 1: Script Development & Testing
+Notes:
+Test each step of the script prior to moving on to the next step however use an integrated approach whereby Object-Oriented Programming is employed for the most efficient use and re-use of code functionality.
+Steps:
+
+1.Initiate the process
+-	Clear the “Attributes Validation Checks” folder(path is “C:\data\Attribute Validation Checks”) from all files except the file named “DM3 Attribute Checker.xlsx”
+-	FOLLOWING TESTING, ONLY CAPTURE DURING FIRST RUN: Capture the user’s name in the ”user_name” variable - this is only captured on the very first time for each new user and then saved and continually used without changing it, going forward; prompt the user: “Enter your first and last name and hit ENTER”
+-	Note: user may enter their name in any format e.g. johan Nieuwenhuys; for the asset name variable it should always be changed to Title Case and any spaces removed before saving in the user_name variable e.g. user_name = “JohanNieuwenhuys”
+-	Simultaneously the user email_string variable is derived from this user input i.e. email_string = “johan.nieuwenhuys” and then concatenated with “@ekfb.com” and saved as the variable user_email e.g. johan.nieuwenhuys@ekfb.com
+-	Capture the Asset Naming details in the “asset_naming” variable by prompting the user: “Now enter the UAID_2 and Asset Name and hit ENTER”
+-	From “asset_naming” variable, the following is derived:
+o	The “uaid_2” variable is saved by extracting from the “asset_naming” variable a 13-character alphanumeric string which always starts with ‘HS2-0’
+o	The “asset_name” variable is saved by subtracting all characters contained in the “uaid_2” variable from those in the “asset_naming” variable and then also removing any spaces from the very front and very end of the remaining string.
+-	This step should only be used if a “uaid_2” variable was not successfully captured during the previous step: Capture the UAID in the “uaid_2” variable by prompting the user for it: “Now enter the UAID_2 and hit ENTER”
+-	This step should only be used if a “asset_name” variable was not successfully captured during the previous step: Capture the Asset Name in the “asset_name” variable by prompting the user for it: “Now enter the Asset Name and hit ENTER”
+-	Capture the URL in the “docset_url” variable, by prompting the user for it: “Now enter the PW Docset URL and hit Enter”
+-	FOLLOWING TESTING, ONLY CAPTURE DURING FIRST RUN: Capture the VPN password in the autodesk_vpn_pw variable by prompting the user: “Now enter your Autodesk VPN Password and hit ENTER”
+
+2.Create unique Project Folder & Downloads Folder on the local drive, download content:
+-	Copy to clipboard all files and folders contained in the Template Folder called “_Template”, which is saved in the following location: “C:\Users\user_name\OneDrive - EKFB\Documents\_Template”
+-	Paste from clipboard the above template files and folders, into the Assets folder in the following location: “C:\Users\ user_name \OneDrive - EKFB\Documents\_Assets”
+-	Now access this folder: “HS2-0000XXXXX” which is saved in: “C:\Users\ user_name \OneDrive - EKFB\Documents\_Assets” and, using the UAID user input from Step 1, rename it with the variable name “uaid_2”.
+-	Now access this folder: “C:\Users\ user_name \OneDrive - EKFB\Documents\_Template\ uaid_2” and rename all files and folders inside, so they all start with the “uaid_2” variable:
+o	the folder named “Downloads” should be named: “‘uaid_2’ – Downloads”
+o	the file named CQA.xlsx should be named: “‘uaid_2’ – CQA.xlsx”
+o	the file named Geospatial.nwd should be named: “‘uaid_2’ – Geospatial.nwd”
+-	(concatenate: uaid_2, space, dash, space, string) e.g. if 
+-	Open a MS Explorer window at the location of the Downloads folder path: “C:\Users\ “user_name“\OneDrive - EKFB\Documents\_Assets\” uaid_2” \” uaid_2” - Downloads”
+-	Prompt the user to download fresh content to the Downloads folder with: “Download new PW docset and IPG exports and hit Enter”
+The user manually download to the Downloads Folder:
+a.	2x infopackage*. csv files (from the Smartforms web app)
+b.	Multiple files of various formats (from the Projectwise web app). 
+-	(Include a wait until user hit Enter, which signals that the manual downloads exercise is complete and the rest of the code is executed).
+
+3.Capture Document Numbers & Names from the IPG (CSV’s), File Names from the Downloads:
+Python script is then used to process these downloaded files:
+-	All file names, excluding the CSV file names, are then stored in a list variable named ‘projectwise_docset’, including the file extensions.
+-	File names containing fewer than 20 characters, should not be added to the ‘projectwise_docset’ list.
+-	The two CSV files have distinct names and always start with infopackage*. These files both contain a single tab and are structured identically. The Document Numbers are contained in the ‘Document.DocumentNumber’ column whilst the linked Document Names are contained in the adjacent Document.DocumentName column.
+-	The script must capture, into a single library, the combined Document Numbers and Document Names from these two columns, out of these two CSV files, and save it for later use as a library called ‘smartforms_ipg’.
+
+4.Check if Smartforms IPG and PW Docset are correct:
+
+> If the ‘smartforms_ipg’ library and ‘projectwise_docset’ list are both correct i.e. all the below checks (A to E) PASS, print in the first line: ‘PASS – PW v IPG Checks all CLEAR >> LOCK Smartforms IPG >> Subject to DM Review’, followed by the appropriate logged PASS outputs from each category as follows:
+
+A.	Check if the ‘‘projectwise_docset’ list PASS or FAIL the following File Size checks; to PASS:
+-	Files names containing ‘DMB’ strings, must be equal to or less than 250 megabites
+> If File Size Check Passed, print: ‘PASS – DMB cleared 250MB threshold’.
+> If File Size Check Failed, print: ‘FAIL – DMB exceeds 250MB threshold’, followed by the full Document Number(s) of the failed document(s), and their size next to them, each failed document (and their size) in a new line.
+
+B.	Check if the ‘‘projectwise_docset’ list PASS or FAIL the following File Extension checks; to PASS:
+-	Files names containing ‘DMB’ strings, must have an .ifc extension
+-	File names containing ‘DM3’, ‘DMA’, ‘DGA’, ‘DSC’, ‘DSE or ‘DDE’ strings, must have .dwg, .rvt or .dgn file extensions
+-	File names containing ‘-SPE-‘ strings, must have .docx file extensions
+-	File names containing ‘IM-REP’ or ‘AU-REP’ strings, must have .xlsx file extensions
+-	File name containing ‘IM-DAT’ strings, must have .json file extensions
+-	File name containing ‘GI-SCH’ strings, must have .xlsx or .XLS file extensions
+-	File name containing ‘GI-GDD’ strings, must have .zip or .ZIP file extensions
+-	File name ‘DM3 Attribute Checker’ must have .xlsx file extension
+> If all File Extension Checks Passed, print: ‘PASS – PW Docset File Extensions Correct’.
+> If all File Extension Checks Failed, print: ‘FAIL – PW Docset File Extensions Incorrect:’, followed by the full Document Numbers of the failed documents, each in a new line.
+> if any “.dwg” file extension is detected, auto login function is triggered, to enable AutodeskVPN_authentication function, using the previously captured credentials from Step 1 i.e. user_email and autodesk_vpn_pw along with this info:
+o	Connection name: “Autodesk”
+o	Server name or address: “azuregateway-9f630072-5cd5-4e77-9f43-dc30c32ad4ea-5e6b920ab499.vpn.azure.com”
+o	Type of sign-in info: “Username and password”
+o	Network profile type: Public network
+-	All file names (excluding the CSV file names) are then stripped of their file-extensions and again stored in the same list variable named ‘projectwise_docset’ to enable like for like lookup in the next test.
+
+C.	Check if the ‘smartforms_ipg’ library vs ‘projectwise_docset’ list PASS or FAIL the following Lookup checks; to PASS:
+-	The ‘smartforms_ipg’ library must contain ALL Document Numbers in the ‘projectwise_docset’ list.
+> If all Lookup checks passed, print: ‘PASS – All PW Docset files are listed in the Smartforms IPG’.
+> If any Lookup checks failed, print: ‘FAIL – PW Docset file(s) not listed in the Smartforms IPG:’, followed by the full Document Numbers of the failed documents, each in a new line.
+
+D.	Check if the ‘smartforms_ipg’ library PASS or FAIL the following Document Type test; to PASS:
+-	It must contain exactly ONE document number containing the string ‘AU-DAT’
+-	It must contain TWO document numbers containing the string ‘AU-CER’
+-	It must contain MINIMUM ONE document number containing the string ‘AU-ITP’
+-	It must contain MINIMUM ONE document number containing the sting ‘DMA’
+> If all Document Type checks passed, print: ‘PASS – DAC, ITP and Asset Data Transfer Log are listed in the Smartforms IPG as expected’.
+> If any Document Type checks failed, print: ‘FAIL – Document Type not listed in the Smartforms IPG:’, followed by the full Document Type(s) generated by the fail, each in a new line:
+> If the FAIL was generated by ‘AU-DAT’, print 'Asset Data Transfer Log – x document(s) missing' with the missing count x.
+> If the FAIL was generated by ‘AU-CER’, print 'DAC y document(s) missing ' with the missing count y.
+> If the FAIL was generated by ‘AU-ITP’, print 'Inspection & Test Plan document(s) missing ‘.
+> If the FAIL was generated by the ‘DMA’, print ‘DMA document(s) missing’
+
+E.	Check if the ‘smartforms_ipg’ library PASS or FAIL the following Key Plan test; to PASS:
+-	It must contain ZERO Document Numbers which are linked to a Document Name containing any of the strings ‘Key Plan’, ‘KEY PLAN’ or ‘key plan’
+> If all Key Plan checks passed, print: ‘PASS – No Key Plan(s) contained in PW Smartforms IPG.
+> If any Key Plan checks failed, print: ‘FAIL – Key Plan(s) contained in PW Smartforms IPG: ‘, followed by each full Document Number & linked Document Name of the failed document, in a new line.
+
+5.Prep’s: PBI Model Checker, Attribute Validation Checks:
+-	From the following location, delete all file names containing ‘DMB’ strings and .ifc file extensions: “C:\data\BIMXTRA_FILES_FROM_METADATA_REP\ASC\local_HS2”
+-	From the downloads folder “user_name“\OneDrive - EKFB\Documents\_Assets\” uaid_2” \” uaid_2” - Downloads”, copy to clipboard all files with file names containing ‘DMB’ strings and .ifc file extensions.
+-	Now paste these DMB files from clipboard into: “C:\data\BIMXTRA_FILES_FROM_METADATA_REP\ASC\local_HS2”
+-	From the following location, delete all file names containing ‘DM3’ strings and .dwg file extensions: “C:\data\Attribute Validation Checks”
+-	From the downloads folder “user_name“\OneDrive - EKFB\Documents\_Assets\” uaid_2” \” uaid_2” - Downloads”, copy to clipboard all files with file names containing ‘DM3’ strings and .dwg file extensions
+-	Now paste these DM3 files from clipboard into: “C:\data\Attribute Validation Checks”
+
+6.Populate CAD QA worksheet with file names based on predefined rules:
+-	Access the “C:\Users\ user_name \OneDrive - EKFB\Documents\_Template\ uaid_2”  folder; from the ‘projectwise_docset’ list, enter document numbers directly into the Models and Drawings tabs of the “‘uaid_2’ – CQA.xlsx file (after opening it) as follows:
+-	(Where there are more than one qualifying file number, they must be sequentially entered in the given cells provided here) 
+-	Files numbers containing ‘DMB’ must be entered under the ‘Models’ tab in cells F3, H3, J3
+-	File numbers containing ‘IM-DAT’ must be entered under the ‘Models’ tab in cells M3, O3, Q3
+-	Files numbers containing ‘DM3’ must be entered under the ‘Models’ tab in cells T3, V3, X3
+-	Files numbers containing ‘DMA’ must be entered under the ‘Models’ tab in cells AA3, AC3, AE3, AG3, AI3, AK3
+-	Files numbers containing ‘AU-REP’ must be entered under the ‘Models’ tab in cells AN3, AP3
+-	Files numbers containing ‘IM-REP’ must be entered under the ‘Models’ tab in cells AS3, AU3
+-	Files numbers containing ‘DGA’ must be entered under the ‘Drawings’ tab in cells F3, H3, J3, L3, N3, P3, R3, T3, V3, X3, Z3, AB3, AD3, AF3, AH3
+-	Files numbers containing ‘DSE’, ‘DSC’ or ‘DSH’ must be entered under the ‘Drawings’ tab in cells AK3, AM3, AO3, AQ3, AS3, AU3, AW3, AY3, BA3, BC3
+-	Files numbers containing ‘DDE’ must be entered under the ‘Drawings’ tab in cells BF3, BH3, BJ3, BL3, BN3, BP3, BR3, BT3, BV3, BX3
+-	Then Enable the “‘uaid_2’ – CQA.xlsx file and save it without closing this file.
+
+7.Populate Excel As-Built Tracker worksheet with file names based on predefined rules:
+-	Access the “C:\Users\ user_name \OneDrive - EKFB\Documents\_Template\ uaid_2”  folder; from the ‘projectwise_docset’ list, enter document numbers into the ‘Assets’ tab of the ‘Tracker - As-Built.xlsx’ file (after opening it) which is located here: C:\Users\user_name\OneDrive - EKFB\Documents\_Tracker):
+-	Check which is the next blank row down, with no value in the ‘Docset URL’ column, then copy row 2 (template row) into the next blank row down. Row 2 contains all the correct formatting to except the new line of data.
+In the new data row, enter new data as follows, in Ariel font, size 10:
+-	 In the column with heading “Docset URL”, enter the “docset_url” value in new data row
+-	In the column with heading “BIM Eng”, enter the initials in all caps in new data row, of the user’s name captured in Step 1 e.g. for John Smith enter JS
+-	In the column with heading “Date Rec” enter today’s date in new data row
+-	In the column with heading “UAID_2” enter “uaid_2” value in new data row
+-	In the column with heading “Asset Name” enter “asset_name” value in new data row
+
+From the ‘smartforms_ipg’ library:
+-	In the column with heading “CDR” enter file number containing “IM-REP”
+-	In the column with heading “MDQCR” enter file number containing “AU-REP”
+-	In the column with heading “GDD Asset Extent” enter file number containing “GI-GDD”
+-	In the column with heading “GIS Self Ass” enter file number containing “GI-SCH’”
+-	In the column with heading “DMB” enter file number containing “DMB” if there are more than one DMB listed, only enter the first one.
+-	In the column with heading “DAC EKFB” enter file number containing “AU-CER” and a six-digit number string starting with 6 eg. “1MC12-EKF-AU-CER-CS03-600104”
+-	In the column with heading “DAC HS2” enter file number containing “AU-CER” and a six-digit number string starting with 0 eg. “1MC12-EKF-AU-CER-CS03-001335”
+-	Then Enable the “‘uaid_2’ – CQA.xlsx file if required and Save without closing.
+STAGE 2: Testing & GUI
+Notes:
+•	Following development of code and initial sporadic testing:
+Next Steps:
+1.	Functional on-the-job usage for a period of 2-4 weeks for a more in-depth testing, debugging and refinement of the code and system prior to developing the GUI
+2.	Develop GUI and full standalone executable application. 
+3.	Test GUI for a period during functional use prior to wider deployment.
+STAGE 3: Deployment & Troubleshooting
+Notes:
+•	Things to bear in mind, which applies to this STAGE only…
+Deployment Plan:
+1.	Once standalone executable app has been fully developed and security clearance gained, initially deploy to one other user for a period of 1-3 weeks to test and troubleshoot the deployment process and obtain initial user feedback.
+2.	Following further process refinement and onboarding initial feedback improvements, produce a training session and get user buy-in.
+3.	Full scale deployment to the wider team for operational usage.
+4.	Further de-bugging, improvements, lessons learned.
+DEBUGGING:
+1. Include a descriptive header comment for each step in the code to clearly explain the purpose and logic of the process.
+2. Incorporate extensive debug output for each process, including error codes and detailed descriptions of relevant data and context. The debug output should provide actionable insights to facilitate a quick and efficient resolution of errors and deficiencies.
